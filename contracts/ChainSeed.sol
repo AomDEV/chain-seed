@@ -137,7 +137,8 @@ contract ChainSeed is AccessControl, ReentrancyGuard {
         bytes32 finalSeed = _getSeed(answer, updatedAt, roundId);
 
         // New Linked-Seed
-        uint256 seedLoopCount = (roundId % providerIndex) + ((roundId + block.number + uint256(finalSeed)) % providerIndex);
+        uint256 providerSafe = providerIndex + 1;
+        uint256 seedLoopCount = (roundId % providerSafe) + ((roundId + block.number + uint256(finalSeed)) % providerSafe);
         _lastSeed = _getHashLoop(seedLoopCount, finalSeed);
 
         // Increase nonce
